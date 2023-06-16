@@ -11,12 +11,12 @@ class VVC_Output(pd.DataFrame):
     def __init__(self, data=None) -> None:
         super().__init__(data)
 
-    def read_multifile(self, filenames : str, qps : int, all_frames=True):
+    def read_multifile(self, filenames, qps, all_frames=False):
         for file, qp in zip(filenames, qps):
-            self.read_file(file, qp, all_frames)
+            self = self.read_file(file, qp, all_frames)
         return self
 
-    def read_file(self, filename : str, qp : int, all_frames=True):
+    def read_file(self, filename : str, qp : int, all_frames=False):
         if not os.path.isfile(filename):
             raise FileNotFoundError()
         
@@ -32,7 +32,7 @@ class VVC_Output(pd.DataFrame):
         with open(filename) as f:
             log = f.read()
             check = self.__full_vid_pattern__.findall(log)
-            if len(check) == 1:
+            if len(check) >= 1:
                 self.__full_execution_decoder__(check[0], qp)
             f.close()
 

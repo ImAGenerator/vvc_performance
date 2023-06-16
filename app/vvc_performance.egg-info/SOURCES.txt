@@ -1,3 +1,5 @@
+LICENSE
+README.md
 setup.py
 app/vvc_performance/__init__.py
 app/vvc_performance.egg-info/PKG-INFO
