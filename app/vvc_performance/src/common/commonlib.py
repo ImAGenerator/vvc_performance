@@ -19,6 +19,9 @@ def file_subs(file_path, destiny_dir, rename_like) -> None:
 
 def get_next_file(exec_buffer, erase = True):
     # reads the first line, then, if erase is on, erases the line read
+    if not os.path.isfile(exec_buffer):
+        raise FileNotFoundError()
+
     with open(exec_buffer, 'r') as f:
         file = f.readline()
         if file.endswith('\n'):
@@ -122,3 +125,13 @@ def list_gprof_logs_in_dir(dir:str)->list:
 
 def list_vtm_logs_in_dir(dir:str)->list:
     return [str(f) for f in Path(dir).rglog('*.vvclog')]
+
+def verify_vtm_path(vtm_path):
+    if not os.path.isdir(vtm_path):
+        raise FileNotFoundError("VTM path is not a directory")
+    if not os.path.isdir(os.path.join(vtm_path + 'bin')):
+        raise FileNotFoundError("bin folder not found at VTM folder")
+    if not os.path.isdir(os.path.join(vtm_path + 'source')):
+        raise FileNotFoundError("source folder not found at VTM folder")
+    if not os.path.isdir(os.path.join(vtm_path + 'cfg')):
+        raise FileNotFoundError("cfg folder not found at VTM folder")

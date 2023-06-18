@@ -1,7 +1,8 @@
 import re
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt    
+import matplotlib.pyplot as plt   
+import os 
 
 keys = ('time','cum_sec','self_sec','calls','self_s_call','tot_s_call','namespace','class','function','definition')
 
@@ -9,7 +10,10 @@ class GprofDF(pd.DataFrame):
     def __init__(self, data = None) -> None:
         super().__init__(data)
 
-    def read_file(self, file_name):   
+    def read_file(self, file_name):  
+        if not os.path.isfile(file_name):
+            raise FileNotFoundError("bin folder not found at VTM folder") 
+        
         df = {key:[] for key in keys}
 
         with open(file_name) as f:
