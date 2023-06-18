@@ -1,6 +1,6 @@
-from vvc_performance import Simulation
+from .app import vvc_performance as vp 
 
-sim = Simulation(
+sim = vp.Simulation(
     n_frames=32, 
     encoder=['RA', 'AI'], 
     qps=[22, 27, 32, 37], 
