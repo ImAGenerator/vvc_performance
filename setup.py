@@ -4,14 +4,14 @@ with open('app/readme.md', 'r') as f:
     long_description = f.read()
 
 setup(
-    name='vvc_performance',
+    name='vvcpy',
     version='0.0.1',
     description='Performance Analyser Framework to the reference software of Versatile Video Coding (VVC), VVC Test Model (VTM)',
     package_dir={'': 'app'},
     packages=find_packages(where='app'),
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/luiseduardomendes/VVC_research',
+    url='https://github.com/luiseduardomendes/vvc_performance',
     author='LuisEduardoMendes',
     author_email='lepmendes@inf.ufrgs.br',
     license='MIT',

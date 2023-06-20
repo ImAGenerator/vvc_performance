@@ -1,5 +1,6 @@
 import os
 from . import csys
+from .commonlib import verify_vtm_path
 from .log_path import vvc_log_path, gprof_log_path, bin_folder_path, create_path_to_log, get_video_identifier
 
 class vvc_executer:
@@ -43,6 +44,7 @@ class vvc_executer:
         self.version = version
 
     def set_vtm_path(self, vtm_path:str):
+        verify_vtm_path(vtm_path)
         self.vtm_path = vtm_path
         self.cfg_dir = os.path.join(vtm_path, 'cfg')
         self.bin_dir = os.path.join(vtm_path, 'bin')

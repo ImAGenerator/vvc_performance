@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
-Name: vvc-performance
+Name: vvcpy
 Version: 0.0.1
 Summary: Performance Analyser Framework to the reference software of Versatile Video Coding (VVC), VVC Test Model (VTM)
-Home-page: https://github.com/luiseduardomendes/VVC_research
+Home-page: https://github.com/luiseduardomendes/vvc_performance
 Author: LuisEduardoMendes
 Author-email: lepmendes@inf.ufrgs.br
 License: MIT

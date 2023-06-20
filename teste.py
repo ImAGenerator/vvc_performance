@@ -1,4 +1,4 @@
-from .app import vvc_performance as vp 
+import vvcpy as vp 
 
 sim = vp.sim.Simulation(
     n_frames=32, 
