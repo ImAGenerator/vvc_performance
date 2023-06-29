@@ -1,8 +1,8 @@
 # VVC Frame Log
 
-## `VVC_output`
+## `vvcpy.prof.VVC_output`
 
-### `VVC_output(file_path:str, qps, frames:int=-1)`
+`VVC_output(file_path:str, qps, frames:int=-1)`
 
 `VVC_output` is a data structure inherited from `pandas.DataFrame` that parse the content of a VVC_output log. The structure contains the following `columns` and `indexes`:
 

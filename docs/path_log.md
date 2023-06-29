@@ -9,27 +9,27 @@ Returns the standard identifier to a given video.
 
 This function returns the standard identifier used by the framework methods and classes.
 
-**Parameters:** 
+### **Parameters:** 
 
-**video : str**
+#### **video : str**
 
 name of the video file.
 
-**cfg : str**
+#### **cfg : str**
 
 name of the encoding configuration ('AI', 'RA', 'LB').
 
-**qp : int**
+#### **qp : int**
 
 value of the quantization parameter(QP).
 
-**version : str**
+#### **version : str**
 
 name of the version of the VTM.
 
-**Returns:**
+### **Returns:**
 
-**str** 
+#### **str** 
 
 standard identifier.
 
@@ -55,31 +55,31 @@ This function returns a string with the path to the GNU Profiler log file genera
 
 if `multiqp` is set as true, the function returns a List to the files with all of the qps given as input. In this situation, the qps parameter must be an iterable element.
 
-**Parameters:**
+### **Parameters:**
 
-**path : str**
+#### **path : str**
 
 path to the output folder where the file is stored.
 
-**video : str**
+#### **video : str**
 
 name of the video file.
 
-**cfg : str**
+#### **cfg : str**
 
 name of the encoding configuration ('AI', 'RA', 'LB').
 
-**qp : int**
+#### **qp : int**
 
 value of the quantization parameter(QP).
 
-**version : str**
+#### **version : str**
 
 name of the version of the VTM.
 
-**Returns:**
+### **Returns:**
 
-**str**
+#### **str**
 
 standard path to the gprof log file.
 
@@ -107,33 +107,33 @@ This function returns a string with the path to the GNU Profiler log file genera
 
 if `multiqp` is set as true, the function returns a List to the files with all of the qps given as input. In this situation, the qps parameter must be an iterable element.
 
-**Parameters:**
+### **Parameters:**
 
-**path : str**
+#### **path : str**
 
 path to the output folder where the file is stored.
 
-**video : str**
+#### **video : str**
 
 name of the video file.
 
-**cfg : str**
+#### **cfg : str**
 
 name of the encoding configuration ('AI', 'RA', 'LB').
 
-**qp : int**
+#### **qp : int**
 
 value of the quantization parameter(QP).
 
-**version : str**
+#### **version : str**
 
 name of the version of the VTM.
 
-**Returns:**
+### **Returns:**
 
-**str**
+#### **str**
 
-standard path to the vvc log file.
+standard path to the gprof log file.
 
 ### Examples
 

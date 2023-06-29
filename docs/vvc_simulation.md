@@ -34,8 +34,6 @@ qp = ['AI', 'RA', 'LB']
 
 `bg_exec` : if it is on, then the simulation will run in background
 
-`gprof` : if it is set to on, then will modify the program parameters to generate a GNU Profiling file to each video. The generated file can be interpreted by the `vvc_log` package, available in this tool.
-
 `cfg_dir` : is the location to the videos configuration files, that must contain informations about the video that should be encoded.
 
 `vtm_dir` : is the location to the vtm main directory.
