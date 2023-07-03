@@ -5,7 +5,7 @@ with open('app/readme.md', 'r') as f:
 
 setup(
     name='vvcpy',
-    version='0.0.1',
+    version='0.0.2',
     description='Performance Analyser Framework to the reference software of Versatile Video Coding (VVC), VVC Test Model (VTM)',
     package_dir={'': 'app'},
     packages=find_packages(where='app'),

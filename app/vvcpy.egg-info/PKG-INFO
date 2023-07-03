@@ -1,14 +1,15 @@
 Metadata-Version: 2.1
 Name: vvcpy
-Version: 0.0.1
+Version: 0.0.2
 Summary: Performance Analyser Framework to the reference software of Versatile Video Coding (VVC), VVC Test Model (VTM)
 Home-page: https://github.com/luiseduardomendes/vvc_performance
 Author: LuisEduardoMendes
 Author-email: lepmendes@inf.ufrgs.br
 License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-License-File: LICENSE

@@ -24,9 +24,9 @@ def vvc_log_path(path, cfg, file, version, qps, multiqp=False):
 def bin_folder_path(path, cfg, file, version, qps, multiqp=False):
     f = __ext_make_folder__(path, cfg, file, version, 'bin')
     if multiqp:
-        return [f+str(qp) for qp in qps]
+        return [os.path.join(f,'QP'+str(qp)) for qp in qps]
     else:
-        return f+str(qps)
+        return os.path.join(f,'QP'+str(qps))
 
 def __ext_make_path__(path, cfg, file, version, qps, log_type, multiqp=False):
     if multiqp:

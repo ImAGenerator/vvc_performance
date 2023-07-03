@@ -3,7 +3,7 @@ from pprint import pprint
 import os
 from .vvc_output import VVC_Output
 from .vvc_bd_rate import BD_Rate
-from .common import log_path
+from ..common import log_path
 
 def vvc_frame_analysis(versions, file_names, path, cfgs, qps, all_frames = False):
     

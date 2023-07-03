@@ -86,17 +86,10 @@ class Simulation:
 
     def remove_video_from_buffer(self, file_index):
         try:
-            indexes = list(file_index)
-            indexes.sort(reverse=True)
-            for index in indexes:
-                del self.videos[index]
-        except AttributeError:
-            try:
-                del self.videos[file_index]
-            except:
-                raise Exception("invalid index type")
-        except :
+            del self.videos[file_index]
+        except:
             raise Exception("invalid index type")
+        
         
     def remove_video_from_buffer_by_name(self, file_name):
         try:
