@@ -135,3 +135,18 @@ def verify_vtm_path(vtm_path):
         raise FileNotFoundError("source folder not found at VTM folder")
     if not os.path.isdir(os.path.join(vtm_path + 'cfg')):
         raise FileNotFoundError("cfg folder not found at VTM folder")
+
+def find_all_versions_in_path(path):
+    vvc_log_path = os.path.join(path, 'vvc_log')
+    if os.path.isdir(vvc_log_path):
+        return list(os.listdir(vvc_log_path))
+    else:
+        return []
+    
+def find_all_videos_in_version(path, version):
+    vvc_log_path = os.path.join(path, 'vvc_log', version)
+
+    if os.path.isdir(vvc_log_path):
+        return list(os.listdir(vvc_log_path))
+    else:
+        return []
