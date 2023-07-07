@@ -14,15 +14,21 @@ def vvc_frame_analysis(versions, file_names, path, cfgs, qps, all_frames = False
     for version in versions:
         for file in files:    
             for cfg in cfgs:
+                skip = False
                 path_logs = log_path.vvc_log_path(path, cfg, file, version, qps, multiqp=True)
                 for p in path_logs:
                     if not os.path.isfile(p):
-                        continue
+                        print('file not found = {}'.format(p))
+                        skip = True
                 
                 path_refs = log_path.vvc_log_path(path, cfg, file, 'Precise', qps, multiqp=True)
                 for p in path_refs:
                     if not os.path.isfile(p):
-                        continue
+                        print('file not found = {}'.format(p))
+                        skip = True
+
+                if skip:
+                    continue
 
                 log = VVC_Output()
                 log = log.read_multifile(path_logs, qps, all_frames)

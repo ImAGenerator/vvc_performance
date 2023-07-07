@@ -3,6 +3,7 @@ import re
 from ..common.commonlib import file_subs, compile_VTM
 from ..common import vvc_exec
 from pathlib import Path
+import yaml
 
 class Simulation:
     cfg_dir = None
@@ -27,6 +28,15 @@ class Simulation:
             self.enable_bg_exec()
         else:
             self.disable_bg_exec()
+
+    def read_yaml(self, yaml_file):
+        with open(yaml_file) as f:
+            data = yaml.load(f, Loader=yaml.SafeLoader)
+
+        cfg = data['cfg']
+        vtm = data['vtm']
+        out = data['out']
+        self.set_paths(out, vtm, cfg)
 
     def run_exec(self):
         print('Execution running')
