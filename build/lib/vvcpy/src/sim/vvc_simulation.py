@@ -60,12 +60,12 @@ class Simulation:
                     _exec.run_exec()
         print('Simulation done')
 
-    def get_exec_info(self):
+    def get_exec_info(self, display=False):
         info = \
             f'---------------------------------------------- \n' + \
-            f'out directory     {self.out_dir}\n'\
-            f'vtm directory     {self.vtm_dir}\n'\
-            f'cfg directory     {self.cfg_dir}\n'\
+            f'out directory     {self.out_dir} \n'\
+            f'vtm directory     {self.vtm_dir} \n'\
+            f'cfg directory     {self.cfg_dir} \n'\
             f'---------------------------------------------- \n' + \
             f'\n' + \
             f'version :         {self.version} \n' + \
@@ -82,8 +82,21 @@ class Simulation:
 
         info += f'Total execution {len(self.videos)} x {len(self.qps)} x {len(self.encoder)} = {len(self.videos) * len(self.qps) * len(self.encoder)} simulations\n---------------------------------------------- \n'
         
-        print(info)
-        return info
+        data = {
+            'out_dir'   :self.out_dir,
+            'vtm_dir'   :self.vtm_dir,
+            'cfg_dir'   :self.cfg_dir,
+            'version'   :self.version,
+            'qps'       :self.qps,
+            'encoder'   :self.encoder,
+            'n_frames'  :self.n_frames,
+            'bg_exec'   :self.bg_exec,
+            'videos'    :self.videos[:],
+        }
+
+        if display:
+            print(info)
+        return data
 
     def append_video_to_buffer(self, file_name:str):
         if not file_name.endswith('.cfg'):

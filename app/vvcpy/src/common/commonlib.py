@@ -2,7 +2,8 @@ import os
 import re
 from os.path import isfile, isdir, join
 from pathlib import Path
-    
+import yaml
+
 def file_subs(file_path, destiny_dir, rename_like) -> None:
     if isfile(file_path):
         source_path = f'{file_path}'
@@ -129,11 +130,11 @@ def list_vtm_logs_in_dir(dir:str)->list:
 def verify_vtm_path(vtm_path):
     if not os.path.isdir(vtm_path):
         raise FileNotFoundError("VTM path is not a directory")
-    if not os.path.isdir(os.path.join(vtm_path + 'bin')):
+    if not os.path.isdir(os.path.join(vtm_path, 'bin')):
         raise FileNotFoundError("bin folder not found at VTM folder")
-    if not os.path.isdir(os.path.join(vtm_path + 'source')):
+    if not os.path.isdir(os.path.join(vtm_path, 'source')):
         raise FileNotFoundError("source folder not found at VTM folder")
-    if not os.path.isdir(os.path.join(vtm_path + 'cfg')):
+    if not os.path.isdir(os.path.join(vtm_path, 'cfg')):
         raise FileNotFoundError("cfg folder not found at VTM folder")
 
 def find_all_versions_in_path(path):
@@ -150,3 +151,15 @@ def find_all_videos_in_version(path, version):
         return list(os.listdir(vvc_log_path))
     else:
         return []
+    
+def yaml_reader(yaml_file, key=''):
+    with open(yaml_file) as f:
+        data = yaml.load(f, Loader=yaml.SafeLoader)
+        f.close()
+    if key == '':
+        return data
+    else:
+        try:
+            return data[key]
+        except:
+            raise Exception(f'Key \"{key}\" not found')
