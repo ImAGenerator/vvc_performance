@@ -19,15 +19,12 @@ class Simulation:
 
     videos = []
 
-    def __init__(self, n_frames = 32, version = 'Precise', qps = [22, 27, 32, 37], encoder = ['AI', 'RA', 'LB'], bg_exec = False):
+    def __init__(self, n_frames = 32, version = 'Precise', qps = [22, 27, 32, 37], encoder = ['AI', 'RA', 'LB']):
         self.set_n_frames(n_frames)
         self.set_version(version)
         self.set_qps(qps)
         self.set_encoder(encoder)
-        if bg_exec:
-            self.enable_bg_exec()
-        else:
-            self.disable_bg_exec()
+        self.disable_bg_exec()
 
     def read_yaml(self, yaml_file):
         with open(yaml_file) as f:
