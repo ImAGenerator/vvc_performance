@@ -122,10 +122,10 @@ def read_config_file(filename: str):
         return data
     
 def list_gprof_logs_in_dir(dir:str)->list:
-    return [str(f) for f in Path(dir).rglog('*.gplog')]
+    return [str(f) for f in Path(dir).rglob('*.gplog')]
 
 def list_vtm_logs_in_dir(dir:str)->list:
-    return [str(f) for f in Path(dir).rglog('*.vvclog')]
+    return [str(f) for f in Path(dir).rglob('*.vvclog')]
 
 def verify_vtm_path(vtm_path):
     if not os.path.isdir(vtm_path):
