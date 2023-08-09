@@ -45,7 +45,7 @@ qp = ['AI', 'RA', 'LB']
 ## Creating a simple "Precise" version simulation
 
 ```py
-import source.vvc_simulation as vs
+import vvcpy as vs
 
 vtm_dir = '/home/VVCSoftware_VTM/'
 cfg_dir = '/home/cfg-files'
@@ -54,7 +54,7 @@ out_dir = '/home/output'
 encoder = ['RA']
 qps = [22, 37]
 
-sim = vs.Simulation(n_frames=32, qps=qps, encoder=encoder, bg_exec=False)
+sim = vs.sim.Simulation(n_frames=32, qps=qps, encoder=encoder, bg_exec=False)
 sim.set_paths(out_dir, vtm_dir, out_dir)
 
 sim.run_exec()
