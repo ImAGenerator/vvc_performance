@@ -163,3 +163,4 @@ def yaml_reader(yaml_file, key=''):
             return data[key]
         except:
             raise Exception(f'Key \"{key}\" not found')
+
