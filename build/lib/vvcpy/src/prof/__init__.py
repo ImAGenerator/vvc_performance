@@ -12,5 +12,6 @@ from .vvc_output import (
 )
 
 from .vvc_log_analysis import (
-    vvc_frame_analysis
+    vvc_frame_analysis,
+    bd_rate_calculation
 )
