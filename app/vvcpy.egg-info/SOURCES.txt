@@ -19,4 +19,5 @@ app/vvcpy/src/prof/vvc_bd_rate.py
 app/vvcpy/src/prof/vvc_log_analysis.py
 app/vvcpy/src/prof/vvc_output.py
 app/vvcpy/src/sim/__init__.py
+app/vvcpy/src/sim/vvc_environment.py
 app/vvcpy/src/sim/vvc_simulation.py

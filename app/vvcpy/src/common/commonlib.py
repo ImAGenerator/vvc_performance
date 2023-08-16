@@ -59,10 +59,14 @@ def compile_VTM(vtm_path):
 def create_exec_buffer(output_dir='.',output_name='.execution_buffer', dir_path='.', extension:str='.cpp'):
     files_list = [str(f) for f in Path(dir_path).rglob('*'+extension)]
 
-    with open(os.path.join(output_dir, output_name), 'w') as f:
+    buffer = os.path.join(output_dir, output_name)
+
+    with open(buffer, 'w') as f:
         for file in files_list:
             f.write(file + '\n')
         f.close()
+
+    return buffer
 
 def change_expression_in_file(file, expression, change_to):
     temp_file_name = ".swp_" + file

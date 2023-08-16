@@ -55,6 +55,7 @@ class Simulation:
                 for qp in self.qps:
                     _exec.set_qp(qp)
                     _exec.run_exec()
+
         print('Simulation done')
 
     def get_exec_info(self, display=False):
@@ -109,7 +110,6 @@ class Simulation:
             del self.videos[file_index]
         except:
             raise Exception("invalid index type")
-        
         
     def remove_video_from_buffer_by_name(self, file_name):
         try:
