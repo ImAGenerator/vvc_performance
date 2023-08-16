@@ -24,7 +24,7 @@ class Simulation:
         self.set_version(version)
         self.set_qps(qps)
         self.set_encoder(encoder)
-        self.disable_bg_exec()
+        self.enable_bg_exec()
 
     def read_yaml(self, yaml_file):
         with open(yaml_file) as f:
