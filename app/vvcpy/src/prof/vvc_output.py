@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import re
@@ -9,8 +10,8 @@ class VVC_Output(pd.DataFrame):
     __frame_pattern__ = re.compile(r'^POC\s+(\d+)\s+LId:\s+\d+\s+TId:\s+\d+\s+\( \w+, (\w-SLICE), QP (\d+) \)\s+(\w+) bits \[Y (\d+\.\d+) dB\s+U (\d+\.\d+) dB\s+V (\d+\.\d+) dB')
     __regex_parser__ = False
 
-    def __init__(self, data=None) -> None:
-        super().__init__(data)
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
 
     def read_multifile(self, filenames, qps, all_frames=False):
         for file, qp in zip(filenames, qps):
@@ -61,6 +62,23 @@ class VVC_Output(pd.DataFrame):
                             data = self.__apply_user_regex__(line, data)
                         self.append(pd.DataFrame(data))
             f.close()
+
+    def plot_psnr_bitrate(self, title="Bitrate vs YUV PSNR", savefig=False, filename='psnr_bitrate.png'):
+        if "bitrate" in self.columns and "YUV_PSNR" in self.columns:
+            plt.figure(figsize=(10, 6))
+            plt.plot(self["bitrate"], self["YUV_PSNR"], marker='o', linestyle='-', color='b')
+            plt.xlabel("Bitrate")
+            plt.ylabel("YUV PSNR")
+            plt.title(title)
+            plt.grid(True)
+            if savefig:
+                plt.savefig(filename)
+            else:
+                plt.show()
+        else:
+            print("Required columns not found in the DataFrame.")
+
+
 
     def __full_execution_decoder__(self, data, qp):
         bitrate, y_psnr, u_psnr, v_psnr, yuv_psnr = data

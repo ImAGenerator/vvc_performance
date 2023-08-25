@@ -4,6 +4,7 @@ from ..common.commonlib import bdr_calc
 import numpy as np
 from scipy import interpolate, integrate
 import math
+import matplotlib.pyplot as plt
 
 
 class BD_Rate(pd.Series):
@@ -21,6 +22,43 @@ class BD_Rate(pd.Series):
         self.__nqps__    = nqps
 
         super().__init__([], name=self.__name__, index=self.__mk_empty_index__(), dtype=float)
+
+    def plot_bdr_video(self, video, savefig=False, figname='bdr_data.png'):
+        df = self[:,video,:, -1]
+        index = df.index
+        versions = set()
+        indexes = set()
+        for i in index:
+            version, cfg = i
+            versions.add(version)
+            indexes.add(cfg)
+        values = {}
+        indexes = list(indexes)
+        indexes
+        for version in versions:
+            values[version] = np.asarray(df[version,:])
+
+        bar_width = 1/len(versions)*0.9
+
+        r = []
+        r.append(np.arange(len(indexes)))
+        for i in range(1, len(versions)):
+            r.append(np.array([x + bar_width for x in r[i-1]]))
+
+        plt.figure(figsize=(10, 6))
+        for i, version in enumerate(versions):
+            plt.bar(r[i], values[version], width=bar_width, edgecolor='grey', label=version)
+        plt.xlabel('Configuration Parameter')
+        plt.ylabel('BD Rate')
+        plt.title(f'Rate Distortion Comparison between Approximate computation\nVersions for \"{video}\" video')
+        plt.xticks([r_ + bar_width/2 for r_ in range(len(indexes))], indexes)
+        plt.legend()
+
+        if savefig:
+            plt.savefig(f'bdr_{video}.png')
+        else:
+            plt.show()
+
 
     def calc_bdbr(self, cmp_df : VVC_Output, ref_df : VVC_Output):
         cmp_df = cmp_df.sort_values(by=['frame', 'qp'])

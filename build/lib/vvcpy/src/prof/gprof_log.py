@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 keys = ('time','cum_sec','self_sec','calls','self_s_call','tot_s_call','namespace','class','function','definition')
 
 class GprofDF(pd.DataFrame):
-    def __init__(self, data = None) -> None:
-        super().__init__(data)
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
 
     def read_file(self, file_name):   
         df = {key:[] for key in keys}
