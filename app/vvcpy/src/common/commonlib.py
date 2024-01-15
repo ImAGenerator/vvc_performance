@@ -2,7 +2,11 @@ import os
 import re
 from os.path import isfile, isdir, join
 from pathlib import Path
-    
+import numpy as np
+from scipy import integrate, interpolate
+import math
+import yaml
+
 def file_subs(file_path, destiny_dir, rename_like) -> None:
     if isfile(file_path):
         source_path = f'{file_path}'
@@ -55,10 +59,14 @@ def compile_VTM(vtm_path):
 def create_exec_buffer(output_dir='.',output_name='.execution_buffer', dir_path='.', extension:str='.cpp'):
     files_list = [str(f) for f in Path(dir_path).rglob('*'+extension)]
 
-    with open(os.path.join(output_dir, output_name), 'w') as f:
+    buffer = os.path.join(output_dir, output_name)
+
+    with open(buffer, 'w') as f:
         for file in files_list:
             f.write(file + '\n')
         f.close()
+
+    return buffer
 
 def change_expression_in_file(file, expression, change_to):
     temp_file_name = ".swp_" + file
@@ -121,19 +129,19 @@ def read_config_file(filename: str):
         return data
     
 def list_gprof_logs_in_dir(dir:str)->list:
-    return [str(f) for f in Path(dir).rglog('*.gplog')]
+    return [str(f) for f in Path(dir).rglob('*.gplog')]
 
 def list_vtm_logs_in_dir(dir:str)->list:
-    return [str(f) for f in Path(dir).rglog('*.vvclog')]
+    return [str(f) for f in Path(dir).rglob('*.vvclog')]
 
 def verify_vtm_path(vtm_path):
     if not os.path.isdir(vtm_path):
         raise FileNotFoundError("VTM path is not a directory")
-    if not os.path.isdir(os.path.join(vtm_path + 'bin')):
+    if not os.path.isdir(os.path.join(vtm_path, 'bin')):
         raise FileNotFoundError("bin folder not found at VTM folder")
-    if not os.path.isdir(os.path.join(vtm_path + 'source')):
+    if not os.path.isdir(os.path.join(vtm_path, 'source')):
         raise FileNotFoundError("source folder not found at VTM folder")
-    if not os.path.isdir(os.path.join(vtm_path + 'cfg')):
+    if not os.path.isdir(os.path.join(vtm_path, 'cfg')):
         raise FileNotFoundError("cfg folder not found at VTM folder")
 
 def find_all_versions_in_path(path):
@@ -150,3 +158,54 @@ def find_all_videos_in_version(path, version):
         return list(os.listdir(vvc_log_path))
     else:
         return []
+    
+def yaml_reader(yaml_file, key=''):
+    with open(yaml_file) as f:
+        data = yaml.load(f, Loader=yaml.SafeLoader)
+        f.close()
+    if key == '':
+        return data
+    else:
+        try:
+            return data[key]
+        except:
+            raise Exception(f'Key \"{key}\" not found')
+        
+def bdr_calc(cmp, ref):
+    if len(cmp['bitrate']) != len(ref['bitrate']):
+        return None
+
+    cmp = np.asarray(cmp.loc[:,'bitrate':'YUV_PSNR'])
+    ref = np.asarray(ref.loc[:,'bitrate':'YUV_PSNR'])
+
+    ref = ref[ref[:,0].argsort()]
+    cmp = cmp[cmp[:,0].argsort()]
+
+    xa, ya = np.log10(ref[:,0]), ref[:,4]
+    xb, yb = np.log10(cmp[:,0]), cmp[:,4]
+    
+    max_i = len(ya)
+    i = 1
+    while(i < max_i):
+        if ya[i] < ya[i-1] or yb[i] <  yb[i-1]:
+            ya = np.delete( ya,i)
+            yb = np.delete( yb,i)
+            xa = np.delete( xa,i)
+            xb = np.delete( xb,i)
+            max_i = len(ya)
+        else:
+            i += 1
+
+    x_interp = [max(min(xa), min(xb)), min(max(xa),max(xb))]
+    y_interp = [max(min(ya), min(yb)), min(max(ya),max(yb))]
+
+    interp_br_a = interpolate.PchipInterpolator(ya,xa)
+    interp_br_b = interpolate.PchipInterpolator(yb,xb)
+
+    bdbr_a = integrate.quad(interp_br_a, y_interp[0], y_interp[1])[0]
+    bdbr_b = integrate.quad(interp_br_b, y_interp[0], y_interp[1])[0]
+
+    bdbr = (bdbr_b - bdbr_a) / (y_interp[1] - y_interp[0])
+    bdbr = (math.pow(10., bdbr)-1)*100
+
+    return bdbr

@@ -31,7 +31,6 @@ class vvc_executer:
 
         cmd = self.__create_command__()
         os.system(cmd)
-        print(cmd)
 
         if self.display:
             self.__display_info__()

@@ -12,6 +12,7 @@ app/vvcpy/src/common/__init__.py
 app/vvcpy/src/common/commonlib.py
 app/vvcpy/src/common/csys.py
 app/vvcpy/src/common/log_path.py
+app/vvcpy/src/common/vvc_environment.py
 app/vvcpy/src/common/vvc_exec.py
 app/vvcpy/src/prof/__init__.py
 app/vvcpy/src/prof/gprof_log.py

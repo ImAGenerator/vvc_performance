@@ -1,8 +1,10 @@
 import pandas as pd
 from .vvc_output import VVC_Output
+from ..common.commonlib import bdr_calc
 import numpy as np
 from scipy import interpolate, integrate
 import math
+import matplotlib.pyplot as plt
 
 
 class BD_Rate(pd.Series):
@@ -21,11 +23,48 @@ class BD_Rate(pd.Series):
 
         super().__init__([], name=self.__name__, index=self.__mk_empty_index__(), dtype=float)
 
+    def plot_bdr_video(self, video, savefig=False, figname='bdr_data.png'):
+        df = self[:,video,:, -1]
+        index = df.index
+        versions = set()
+        indexes = set()
+        for i in index:
+            version, cfg = i
+            versions.add(version)
+            indexes.add(cfg)
+        values = {}
+        indexes = list(indexes)
+        indexes
+        for version in versions:
+            values[version] = np.asarray(df[version,:])
+
+        bar_width = 1/len(versions)*0.9
+
+        r = []
+        r.append(np.arange(len(indexes)))
+        for i in range(1, len(versions)):
+            r.append(np.array([x + bar_width for x in r[i-1]]))
+
+        plt.figure(figsize=(10, 6))
+        for i, version in enumerate(versions):
+            plt.bar(r[i], values[version], width=bar_width, edgecolor='grey', label=version)
+        plt.xlabel('Configuration Parameter')
+        plt.ylabel('BD Rate')
+        plt.title(f'Rate Distortion Comparison between Approximate computation\nVersions for \"{video}\" video')
+        plt.xticks([r_ + bar_width/2 for r_ in range(len(indexes))], indexes)
+        plt.legend()
+
+        if savefig:
+            plt.savefig(f'bdr_{video}.png')
+        else:
+            plt.show()
+
+
     def calc_bdbr(self, cmp_df : VVC_Output, ref_df : VVC_Output):
         cmp_df = cmp_df.sort_values(by=['frame', 'qp'])
         ref_df = ref_df.sort_values(by=['frame', 'qp']) 
         bdr = [
-            self.__bdbr__(
+            bdr_calc(
                 cmp_df.iloc[i:i+self.__nqps__], 
                 ref_df.iloc[i:i+self.__nqps__]
             ) 
@@ -44,45 +83,6 @@ class BD_Rate(pd.Series):
 
     def append_bd(self, bd_rate):
         super().__init__(pd.concat([self, bd_rate]))
-
-    def __bdbr__(self, cmp, ref):
-        if len(cmp['bitrate']) != len(ref['bitrate']):
-            return None
-
-        VVC     = np.asarray(cmp.loc[:,'bitrate':'YUV_PSNR'])
-        HEVC    = np.asarray(ref.loc[:,'bitrate':'YUV_PSNR'])
-
-        HEVC = HEVC[HEVC[:,0].argsort()]
-        VVC = VVC[VVC[:,0].argsort()]
-
-        xa, ya = np.log10(HEVC[:,0]), HEVC[:,4]
-        xb, yb = np.log10(VVC[:,0]), VVC[:,4]
-        
-        max_i = len(ya)
-        i = 1
-        while(i < max_i):
-            if ya[i] < ya[i-1] or yb[i] <  yb[i-1]:
-                ya = np.delete( ya,i)
-                yb = np.delete( yb,i)
-                xa = np.delete( xa,i)
-                xb = np.delete( xb,i)
-                max_i = len(ya)
-            else:
-                i += 1
-
-        x_interp = [max(min(xa), min(xb)), min(max(xa),max(xb))]
-        y_interp = [max(min(ya), min(yb)), min(max(ya),max(yb))]
-
-        interp_br_a = interpolate.PchipInterpolator(ya,xa)
-        interp_br_b = interpolate.PchipInterpolator(yb,xb)
-
-        bdbr_a = integrate.quad(interp_br_a, y_interp[0], y_interp[1])[0]
-        bdbr_b = integrate.quad(interp_br_b, y_interp[0], y_interp[1])[0]
-
-        bdbr = (bdbr_b - bdbr_a) / (y_interp[1] - y_interp[0])
-        bdbr = (math.pow(10., bdbr)-1)*100
-
-        return bdbr
 
     def __mk_empty_index__(self) -> pd.MultiIndex:
         return pd.MultiIndex.from_arrays(

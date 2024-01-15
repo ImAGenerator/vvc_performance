@@ -20,6 +20,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Operating System :: OS Independent'
     ],
-    install_requires=['numpy','pandas','matplotlib','scipy'],
+    install_requires=['numpy','pandas','matplotlib','scipy','pyyaml'],
     python_requires='>=3.8',
 )
