@@ -1,6 +1,6 @@
 # Path Log
 
-## vvcpy.common.path_log.get_video_identifier
+## get_video_identifier
 
 
 `vvcpy.common.path_log.get_video_identifier(video, cfg, qp, version)`
@@ -45,7 +45,7 @@ standard identifier.
 'RaceHorses_qp37_AI_RdCostModif'
 ```
 
-## vvcpy.common.path_log.gprof_log_path
+## gprof_log_path
 
 `vvcpy.common.path_log.gprof_log_path(path, cfg, file, version, qps, multiqp=False)`
 
@@ -97,7 +97,7 @@ standard path to the gprof log file.
 ```
 
 
-## vvcpy.common.path_log.vvc_log_path
+## vvc_log_path
 
 `vvcpy.common.path_log.vvc_log_path(path, cfg, file, version, qps, multiqp=False)`
 
@@ -146,4 +146,115 @@ standard path to the gprof log file.
 		version = 'RdCostModif'
 	)
 '/home/output/vvc_log/RdCostModif/RaceHorses/AI/log_RaceHorses_qp37_AI_RdCostModif.vvclog'
+```
+
+## **list_gprof_logs_in_dir**
+`vvcpy.common.commonlib.list_gprof_logs_in_dir(dir : str)`
+
+Returns a list which contains the path to all the gprof logs in the specified directory.
+
+### **Parameters:**
+
+#### **dir : str**
+
+path to the output folder where the file is stored.
+
+### **Returns:**
+
+#### **List()**
+
+Gprof Logs in dir.
+
+### Examples
+
+```python
+>>> from vvcpy import common
+>>> dir = '/home/output'
+>>> logs = common.commonlib.list_gprof_logs_in_dir(dir)
+>>> print(logs)
+['/home/output/gprof_log/Precise/RaceHorses/AI/log_RaceHorses_qp37_AI_Precise.gplog',
+ '/home/output/gprof_log/Precise/RaceHorses/RA/log_RaceHorses_qp37_RA_Precise.gplog']
+```
+
+## **list_vtm_logs_in_dir**
+`vvcpy.common.commonlib.list_gprof_logs_in_dir(dir : str)`
+
+Returns a list which contains the path to all the vtm logs in the specified directory.
+
+### **Parameters:**
+
+#### **dir : str**
+
+path to the output folder where the file is stored.
+
+### **Returns:**
+
+#### **List()**
+
+vtm logs in dir.
+
+### Examples
+
+```python
+>>> from vvcpy import common
+>>> dir = '/home/output'
+>>> logs = common.commonlib.list_vtm_logs_in_dir(dir)
+>>> print(logs)
+['/home/output/vtm_log/Precise/RaceHorses/AI/log_RaceHorses_qp37_AI_Precise.gplog',
+ '/home/output/vtm_log/Precise/RaceHorses/RA/log_RaceHorses_qp37_RA_Precise.gplog']
+```
+
+## find_all_versions_in_path
+`find_all_videos_in_version(path):`
+
+Returns a list which countains all the version in a specific output 
+### **Parameters:**
+
+#### **path : str**
+
+path to the output folder where the files are stored.
+
+### **Returns:**
+
+#### **List()**
+
+versions in the output dir.
+
+### Examples
+```python
+>>> from vvcpy import common
+>>> dir = '/home/output'
+>>> videos = common.commonlib.find_all_versions_in_path(dir)
+>>> print(videos)
+['Precise']
+```
+
+## find_all_videos_in_version
+`find_all_videos_in_version(path, version):`
+
+Returns a list which countains all the videos in the output of a specific version
+### **Parameters:**
+
+#### **path : str**
+
+path to the output folder where the files are stored.
+
+#### **version : str**
+
+name of the version.
+
+### **Returns:**
+
+#### **List()**
+
+videos in the version dir.
+
+### Examples
+```python
+>>> from vvcpy import common
+>>> dir = '/home/output'
+>>> ver = 'Precise'
+>>> videos = common.commonlib.find_all_videos_in_version(dir, ver)
+>>> print(videos)
+['RaceHorses']
 ```

@@ -19,15 +19,12 @@ class Simulation:
 
     videos = []
 
-    def __init__(self, n_frames = 32, version = 'Precise', qps = [22, 27, 32, 37], encoder = ['AI', 'RA', 'LB'], bg_exec = False):
+    def __init__(self, n_frames = 32, version = 'Precise', qps = [22, 27, 32, 37], encoder = ['AI', 'RA', 'LB']):
         self.set_n_frames(n_frames)
         self.set_version(version)
         self.set_qps(qps)
         self.set_encoder(encoder)
-        if bg_exec:
-            self.enable_bg_exec()
-        else:
-            self.disable_bg_exec()
+        self.enable_bg_exec()
 
     def read_yaml(self, yaml_file):
         with open(yaml_file) as f:
@@ -58,14 +55,15 @@ class Simulation:
                 for qp in self.qps:
                     _exec.set_qp(qp)
                     _exec.run_exec()
+
         print('Simulation done')
 
-    def get_exec_info(self):
+    def get_exec_info(self, display=False):
         info = \
             f'---------------------------------------------- \n' + \
-            f'out directory     {self.out_dir}\n'\
-            f'vtm directory     {self.vtm_dir}\n'\
-            f'cfg directory     {self.cfg_dir}\n'\
+            f'out directory     {self.out_dir} \n'\
+            f'vtm directory     {self.vtm_dir} \n'\
+            f'cfg directory     {self.cfg_dir} \n'\
             f'---------------------------------------------- \n' + \
             f'\n' + \
             f'version :         {self.version} \n' + \
@@ -82,8 +80,21 @@ class Simulation:
 
         info += f'Total execution {len(self.videos)} x {len(self.qps)} x {len(self.encoder)} = {len(self.videos) * len(self.qps) * len(self.encoder)} simulations\n---------------------------------------------- \n'
         
-        print(info)
-        return info
+        data = {
+            'out_dir'   :self.out_dir,
+            'vtm_dir'   :self.vtm_dir,
+            'cfg_dir'   :self.cfg_dir,
+            'version'   :self.version,
+            'qps'       :self.qps,
+            'encoder'   :self.encoder,
+            'n_frames'  :self.n_frames,
+            'bg_exec'   :self.bg_exec,
+            'videos'    :self.videos[:],
+        }
+
+        if display:
+            print(info)
+        return data
 
     def append_video_to_buffer(self, file_name:str):
         if not file_name.endswith('.cfg'):
@@ -99,7 +110,6 @@ class Simulation:
             del self.videos[file_index]
         except:
             raise Exception("invalid index type")
-        
         
     def remove_video_from_buffer_by_name(self, file_name):
         try:
